@@ -79,7 +79,12 @@ public class FSnake extends JFrame implements ActionListener{
 		}
 		else if(e.getKeyCode() == JSnake.ARR) {
 			this.Direccion = "ARR";
+		}else if(e.getKeyCode() == JSnake.IZQ) {
+			this.Direccion = "IZQ";
+		}else if(e.getKeyCode() == JSnake.DER) {
+			this.Direccion = "DER";
 		}
+
 	}
 
 
@@ -113,6 +118,7 @@ public class FSnake extends JFrame implements ActionListener{
 		if(this.jsnake != null) {
 			this.jsnake.hacerJugada(this.Direccion);
 			this.cuadricula.repaint();
+
 		}
 
 
