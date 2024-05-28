@@ -3,123 +3,108 @@ package logica;
 import java.util.ArrayList;
 
 public class JSnake {
-	private int matriz[][] =  new int[20][20];
-	public final static int IZQ = 37;
-	public final static int ARR = 38;
-	public final static int DER = 39;
-	public final static int ABA = 40;
-	private int filaManzana;
-	private int ColManzana;
-	private int prevCabezaFila;
-	private int prevCabezaCol;
+    private int matriz[][] = new int[20][20];
+    public final static int IZQ = 37;
+    public final static int ARR = 38;
+    public final static int DER = 39;
+    public final static int ABA = 40;
+    private int filaManzana;
+    private int colManzana;
+    private boolean juegoTerminado = false;
 
-	private ArrayList<Cordenadas> cuerpoSerpiente = new ArrayList<Cordenadas>();
+    private ArrayList<Cordenadas> cuerpoSerpiente = new ArrayList<>();
 
-	public ArrayList<Cordenadas> getCuerpoSerpiente() {
-		return cuerpoSerpiente;
-	}
+    public ArrayList<Cordenadas> getCuerpoSerpiente() {
+        return cuerpoSerpiente;
+    }
 
-	public int[][] getMatriz() {
-		return matriz;
-	}
+    public int[][] getMatriz() {
+        return matriz;
+    }
 
-	public JSnake() {
-		this.nuevaManzana();
-		this.nuevaSerpiente();
-	}
+    public boolean isJuegoTerminado() {
+        return juegoTerminado;
+    }
 
-	private void nuevaManzana() {
-		int fila;
-		int col;
-		do {
-			fila =  valorAleatorio();
-			col = valorAleatorio();
-		}while(this.matriz[fila][col] != 0);
-		this.filaManzana = fila;
-		this.ColManzana = col;
-		this.matriz[fila][col] = 1;
-	}
-	private void nuevaSerpiente() {
-		int fila = 10;
-		int col = 4;
-		this.matriz[fila][col] = 2;
-	}
+    public JSnake() {
+        this.nuevaManzana();
+        this.nuevaSerpiente();
+    }
 
+    private void nuevaManzana() {
+        int fila;
+        int col;
+        do {
+            fila = valorAleatorio();
+            col = valorAleatorio();
+        } while (this.matriz[fila][col] != 0);
+        this.filaManzana = fila;
+        this.colManzana = col;
+        this.matriz[fila][col] = 1;
+    }
 
-	private int valorAleatorio() {
-		return (int)(Math.random()*20);
-	}
-	public void hacerJugada(String Direccion) {
-		this.hacerMovimiento(Direccion);
-	}
+    private void nuevaSerpiente() {
+        int fila;
+        int col;
+        do {
+            fila = valorAleatorio();
+            col = valorAleatorio();
+        } while (this.matriz[fila][col] != 0 && this.matriz[fila][col] != 1);
+        this.matriz[fila][col] = 2;
+        cuerpoSerpiente.add(new Cordenadas(fila, col));
+    }
 
-	public void hacerMovimiento(String Direccion) {
-		if(Direccion != null) {
-			if(Direccion.equalsIgnoreCase("ABA")) {
-				for(int i=19; i>=0;i--) {
-					for(int j=0;j<20;j++) {
-						if(this.matriz[i][j] ==2) {
-							int x=i;
-							int prevI = i;
-							int prevJ = j;
-							if(x+1 <20) {
-								if(x<20 && this.matriz[x+1][j]==0) {
-									this.matriz[x+1][j]=this.matriz[i][j];
-								}else if(this.matriz[x+1][j]==1) {
-									cuerpoSerpiente.add(new Cordenadas(this.filaManzana,this.ColManzana));
+    private int valorAleatorio() {
+        return (int) (Math.random() * 20);
+    }
 
-									this.matriz[x+1][j] = 0;
-									this.matriz[x+1][j] =this.matriz[i][j];
-									this.nuevaManzana();
-								}
-								this.matriz[prevI][prevJ] = 2;
-								this.matriz[i][j]=0;
-							}
-						}
-					}
-				}
-			}
-			else if (Direccion.equalsIgnoreCase("ARR")) {
-				for (int i = 0; i < 20; i++) {
-					for (int j = 0; j < 20; j++) {
-						if (this.matriz[i][j] == 2) {
-							int x = i;
-							if (x > 0 && this.matriz[x - 1][j] == 0) { 
-								this.matriz[x - 1][j] = this.matriz[i][j]; 
-								this.matriz[i][j] = 0; 
-							}
-						}
-					}
-				}
-			}else if (Direccion.equalsIgnoreCase("IZQ")) {
-				for (int i = 0; i < 20; i++) {
-					for (int j = 0; j < 20; j++) {
-						if (matriz[i][j] == 2) {
-							int x = j;
-							if (x > 0 && matriz[i][x - 1] == 0) { 
-								matriz[i][x-1] = this.matriz[i][j];
-								matriz[i][j] = 0; 
-							}
-						}
-					}
-				}  
-			}else if (Direccion.equalsIgnoreCase("DER")) {
-				for (int i = 0; i < 20; i++) {
-					for (int j = 19; j >= 0; j--) {
-						if (matriz[i][j] == 2) {
-							int x = j;
-							if(x+1 <20) {
-								if (x < 20 && matriz[i][x + 1] == 0) { 
-									matriz[i][x+1] = this.matriz[i][j];
-									matriz[i][j] = 0; 
-								}
-							}
-						}
-					}
-				}  
-			}
-		}	
-	}
+    public void hacerJugada(String Direccion) {
+        if (!juegoTerminado) {
+            this.hacerMovimiento(Direccion);
+        }
+    }
 
+    public void hacerMovimiento(String Direccion) {
+        if (Direccion != null && !Direccion.isEmpty()) {
+            int dirFila = 0;
+            int dirCol = 0;
 
+            if (Direccion.equalsIgnoreCase("ABA")) {
+                dirFila = 1;
+            } else if (Direccion.equalsIgnoreCase("ARR")) {
+                dirFila = -1;
+            } else if (Direccion.equalsIgnoreCase("IZQ")) {
+                dirCol = -1;
+            } else if (Direccion.equalsIgnoreCase("DER")) {
+                dirCol = 1;
+            }
+
+            Cordenadas cabeza = cuerpoSerpiente.get(0);
+            int nuevaFila = cabeza.getFila() + dirFila;
+            int nuevaCol = cabeza.getColumna() + dirCol;
+
+            // Verificar colisión con la pared
+            if (nuevaFila < 0 || nuevaFila >= 20 || nuevaCol < 0 || nuevaCol >= 20) {
+                juegoTerminado = true;
+                return;
+            }
+
+            // Verificar colisión con el cuerpo
+            if (matriz[nuevaFila][nuevaCol] == 2) {
+                juegoTerminado = true;
+                return;
+            }
+
+            if (matriz[nuevaFila][nuevaCol] == 1) { // Comer manzana
+                cuerpoSerpiente.add(0, new Cordenadas(nuevaFila, nuevaCol));
+                matriz[nuevaFila][nuevaCol] = 2;
+                nuevaManzana();
+            } else if (matriz[nuevaFila][nuevaCol] == 0) { // Movimiento normal
+                cuerpoSerpiente.add(0, new Cordenadas(nuevaFila, nuevaCol));
+                matriz[nuevaFila][nuevaCol] = 2;
+                Cordenadas cola = cuerpoSerpiente.remove(cuerpoSerpiente.size() - 1);
+                matriz[cola.getFila()][cola.getColumna()] = 0;
+            }
+        }
+    }
 }
