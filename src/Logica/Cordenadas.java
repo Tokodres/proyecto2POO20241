@@ -1,4 +1,4 @@
-package logica;
+package Logica;
 
 public class Cordenadas {
 	private int fila;

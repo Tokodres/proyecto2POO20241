@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import logica.Cordenadas;
-import logica.JSnake;
+import Logica.Cordenadas;
+import Logica.JSnake;
 
 public class Cuadricula extends JPanel {
     private JSnake jsnake;
