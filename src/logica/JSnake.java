@@ -2,6 +2,8 @@ package logica;
 
 import java.util.ArrayList;
 
+import Presentacion.FSnake;
+
 public class JSnake {
     private int matriz[][] = new int[20][20];
     public final static int IZQ = 37;
@@ -83,23 +85,24 @@ public class JSnake {
             int nuevaFila = cabeza.getFila() + dirFila;
             int nuevaCol = cabeza.getColumna() + dirCol;
 
-            // Verificar colisión con la pared
+
             if (nuevaFila < 0 || nuevaFila >= 20 || nuevaCol < 0 || nuevaCol >= 20) {
                 juegoTerminado = true;
                 return;
             }
 
-            // Verificar colisión con el cuerpo
+
             if (matriz[nuevaFila][nuevaCol] == 2) {
                 juegoTerminado = true;
                 return;
             }
 
-            if (matriz[nuevaFila][nuevaCol] == 1) { // Comer manzana
+            if (matriz[nuevaFila][nuevaCol] == 1) { 
                 cuerpoSerpiente.add(0, new Cordenadas(nuevaFila, nuevaCol));
                 matriz[nuevaFila][nuevaCol] = 2;
                 nuevaManzana();
-            } else if (matriz[nuevaFila][nuevaCol] == 0) { // Movimiento normal
+                FSnake.incrementManzanas();
+            } else if (matriz[nuevaFila][nuevaCol] == 0) { 
                 cuerpoSerpiente.add(0, new Cordenadas(nuevaFila, nuevaCol));
                 matriz[nuevaFila][nuevaCol] = 2;
                 Cordenadas cola = cuerpoSerpiente.remove(cuerpoSerpiente.size() - 1);
