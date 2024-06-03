@@ -37,14 +37,17 @@ public class FSnake extends JFrame implements ActionListener {
 	private String Direccion;
 	private TimerTask timerTask;
 	private ArrayList<Integer> puntajes = new ArrayList<Integer>();
-
+	
+	public static void main(String[] args) {
+		new FSnake();
+	}
 	public static void incrementManzanas() {
 		manzanas++;
 		puntuacion++;
 	}
 	public FSnake() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(616, 665);
+		this.setSize(617, 666);
 		this.setTitle("Culebrita POO");
 		this.setLayout(new BorderLayout());
 		this.bNuevoJuego = new JButton("Nuevo Juego");
