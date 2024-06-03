@@ -112,6 +112,7 @@ public class FSnake extends JFrame implements ActionListener {
 		if(this.puntuacion != 0) {
 			this.puntajes.add(this.puntuacion);
 		}
+		this.puntuacion = 0;
 		this.segundos = 0;
 		this.manzanas = 0;
 		this.jsnake = new JSnake();
